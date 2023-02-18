@@ -4,11 +4,16 @@ import time
 
 url = "https://hooks.slack.com/"
 webhook = WebhookClient(url)
+server=[]
+threads=60
 
 def sptest():
+    
     st=speedtest.Speedtest()
-    downlink=st.download() * 1e-6
-    uplink=st.upload() * 1e-6
+    st.get_servers()
+    st.get_best_server()
+    downlink=st.download(threads=threads) * 1e-6
+    uplink=st.upload(threads=threads,pre_allocate=True) * 1e-6
     latency= st.results.ping
     return round(downlink,2), round(uplink,2), round(latency,2)
 
